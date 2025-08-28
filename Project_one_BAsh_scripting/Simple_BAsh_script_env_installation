@@ -1,1 +1,131 @@
+### HacBio Bash Linux scripting
 
+## Project 1: Bash Scripting
+
+#Print your name
+$ echo "Your Name"
+
+
+#Create a folder titled your name and listing the folder's items
+$ mkdir Hajaharivelo; ls -lh
+
+
+#Create another new directory titled biocomputing and change to that directory with one line of command, check the working directory
+$ mkdir biocomputing && cd biocomputing; pwd
+
+
+# Download 3 files in one line and list it
+$ wget https://raw.githubusercontent.com/josoga2/dataset-repos/main/wildtype.fna; wget https://raw.githubusercontent.com/josoga2/dataset-repos/main/wildtype.gbk; wget https://raw.githubusercontent.com/josoga2/dataset-repos/main/wildtype.gbk; ls -lh
+
+
+#Move the .fna file to the folder titled your name and check the listed item and the working directory
+$ mv wildtype.fna ../Hajaharivelo/; pwd; ls -lh
+
+#Delete the duplicate gbk file and check the listed item and the working directory
+$ rm wildtype.gbk.1; pwd; ls -lh
+
+
+#Confirm if the .fna file is mutant or wild type by creating a bash script who's going to inquire the "tatatata" mutant pattern
+$ nano mutant_check.sh
+	#!/usr/bin/env bash
+	if grep -q 'tatatata' wildtype.fna; then
+	    echo "mutant"
+	else
+	    echo "wildtype"
+	fi
+$ bash mutant_check.sh
+
+
+#Saving all matching mutant lines into a new file and explore the new file with listing all the working directory items
+$ grep "tatatata" ../your_name/wildtype.fna > mutant_lines.txt; cat mutant_lines.txt; pwd; ls -lh
+
+
+#Count number of lines (excluding header) in the .gbk file
+$ wc -l wildtype.gbk; # count all the line in the .gbk file
+   #NOTE : the header of a .gbk file start at the LOCUS tag and stop at the ORIGIN tag, with that information we can see that the header start at the position 1  and stops at the 2459 position when reading the file in a text editor
+   
+$ sed '1,2459d' wildtype.gbk | wc -l #deleting the lines 1 through 2459 using sed to exclude the header and count the left line
+
+#Print the sequence length of the .gbk file using the LOCUS tag in the first line
+$ grep "LOCUS" wildtype.gbk | awk '{print $3, $4}' # using grep to search LOCUS tag and using awk to localize the sequence length
+
+
+#Print the source organism of the .gbk file Using the SOURCE tag in the first line
+$ grep "SOURCE" wildtype.gbk | awk '{print $2}'  # using grep to search SOURCE tag and using awk to localize the source organism
+
+
+#List all the gene names of the .gbk file
+$ grep '/gene=' wildtype.gbk
+
+
+#Clear your terminal space and print all commands used today
+$ clear && history > commands_project_1.txt; cat commands_project_1.txt
+
+
+#List the files in the two folders
+$ ls -lh; ls -l ../Hajaharivelo/
+
+
+## Project 2: Installing Bioinformatics Software on the Terminal
+
+#Activate your base conda environment
+$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh #downloading conda environment for linux
+$ bash Miniconda3-latest-Linux-86-64.sh #installing conda environment
+ 
+ #NOTE: restart terminal once the installation is done
+$ conda --version #checking if the installation successed
+$ conda activate 
+    
+
+#Create a conda environment named funtools
+$  conda create -n funtools python=3.10
+
+
+#Activate the funtools environment
+$  conda activate funtools
+    
+
+#Install Figlet using conda
+#Install conda channels beforehand
+$ conda config --add channels defaults; conda config --add channels bioconda; conda config --add channels conda-forge
+
+$ conda install conda-forge::figlet
+  #NOTE : figlet packages notfound in the conda-forge channels
+$ conda install conda-forge::pyfiglet #installing pyfiglet instead after browsing on anaconda.org
+
+
+#Run figlet \<your name\>
+$ pyfiglet Hajaharivelo #using pyfiglet
+   
+
+#Install bwa through the bioconda channel
+$ conda install bioconda::bwa
+    
+
+#Install blast through the bioconda channel
+$ conda install bioconda::blast
+    
+
+#Install samtools through the bioconda channel
+$ conda install bioconda::samtools
+
+
+#Install bedtools through the bioconda channel
+$ conda install bioconda::bedtools
+   
+
+#Install spades.py through the bioconda channel
+$ conda install bioconda::spades
+ 
+ 
+#Install bcftools through the bioconda channel
+$ conda install bioconda::bcftools
+    
+
+#Install fastp through the bioconda channel
+$ conda install bioconda::fastp
+    
+
+#Install multiqc through the bioconda channel
+$ conda install bioconda::multiqc
+    
